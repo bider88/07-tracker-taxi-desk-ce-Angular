@@ -4,9 +4,9 @@
 <div class="container-fluid">
   <div class="row pt-2">
     <div class="col-8">
-      <h3>Mapa</h3>
+      <h3>Mapa <small *ngIf="focusOnName">Siguiendo a: {{ focusOnName }}</small></h3>
       <div class="map">
-        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="14">
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
           <agm-marker *ngFor="let driver of drivers" [latitude]="driver.lat" [longitude]="driver.lng"></agm-marker>
         </agm-map>
       </div>
@@ -14,7 +14,10 @@
     <div class="col-4">
       <h3>Conductores</h3>
       <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action" *ngFor="let driver of drivers">{{ driver.name }} / <small>{{ driver.key }}</small></a>
+        <a class="list-group-item list-group-item-action pointer" *ngFor="let driver of drivers" (click)="focusOnDriver( driver )">
+          {{ driver.name }} / <small>{{ driver.key }}</small>
+        </a>
+        <button class="btn btn-primary btn-block" *ngIf="focusOnName" (click)="missFocusOnDriver()">Dejar de seguir</button>
       </div>
     </div>
   </div>

@@ -11,9 +11,14 @@ export class AppComponent implements OnInit {
 
   lat: number = 51.678418;
   lng: number = 7.809007;
-  list: Subscription;
-  drivers: Array<Driver>;
+
   init: boolean = false;
+
+  list: Subscription;
+
+  drivers: Array<Driver>;
+  focusOn: string = null;
+  focusOnName: string = null;
 
   constructor(
     private _userService: UserService
@@ -32,8 +37,30 @@ export class AppComponent implements OnInit {
           this.lng = this.drivers[0].lng;
           this.init = true;
         }
+
+        if ( this.focusOn ) {
+          this.drivers.forEach( driver => {
+            if (driver.key === this.focusOn) {
+              this.lat = driver.lat;
+              this.lng = driver.lng;
+            }
+          });
+        }
       }
     );
+  }
+
+  focusOnDriver(driver: Driver) {
+    this.focusOn = driver.key;
+    this.focusOnName = driver.name;
+
+    this.lat = driver.lat;
+    this.lng = driver.lng;
+  }
+
+  missFocusOnDriver() {
+    this.focusOn = null;
+    this.focusOnName = null;
   }
 }
 
